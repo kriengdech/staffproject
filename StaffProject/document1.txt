@@ -1,0 +1,928 @@
+***
+Learn this program with Youtube name Python Django Beginners like a PRO (2022) Instruct by "Django Mastery" 
+(10.03.42)
+***
+*
+Episode 1 : Build our frontend and our backend page, accessomg it through a login system
+*
+17.05 Creating Project   ต้นฉบับจะเป็นระบบ Patients System
+    สร้าง โปรเจค ชื่อ Staff Project โดยคำสั่ง
+        django-admin startproject StaffProject
+27.36 Creating App   ต้นฉบับจะเป็นระบบ Patients System           
+    สร้าง App ชื่อ App โดยคำสั่ง
+        python manage.py startapp App
+27.56 เพิ่มชื่อ app ที่สร้างใหม่ เข้าไปใน settings.py ในส่วนของ NSTALLED_APPS ดังนี้
+        # Application definition
+        INSTALLED_APPS = [
+            'django.contrib.admin',
+            'django.contrib.auth',
+            'django.contrib.contenttypes',
+            'django.contrib.sessions',
+            'django.contrib.messages',
+            'django.contrib.staticfiles',
+            'App',
+        ]
+28.41 ทำการ migrate ข้อมูล ดังนี้
+        python manage.py migrate
+30.17 ไปที่ urls.py สร้าง path ที่จะโยงไปยัง Homepage ดังนี้
+            from django.contrib import admin
+            from django.urls import path
+            from App import views
+
+            urlpatterns = [
+                #path to access the admin page
+                path('admin/', admin.site.urls),
+                #path to render HomePage
+                path('', views.frontend,name = 'frontend'),    
+            ]
+33.48 ไปที่ views.py ใน App สร้าง function ที่จะไปยัง template homepage ดังนี้
+            # Function to render the HomePage
+            def frontend(request):
+                return render(request,'frontend.html')
+34.20 ภายใต้ App สร้าง folder ชื่อ templates และ ภายใต้ templates สร้าง html file ชื่อ frontend.html
+34.47 coding program ใน frontend.html ดังนี้ key ht แล้วเลือก html:5 เครื่องจะสร้าง default ให้ 
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+            </head>
+            <body>
+
+            </body>
+            </html>
+    แล้วใส่บันทัด 
+            <h1>FrontEnd Page </h1> ในส่วนของ <body>ดังนี้
+            <body>
+                <h1>FrontEnd Page</h1>
+            </body>
+35.25 สร้าง html file ชื่อ  base.html อีกไฟล์หนึ่ง โดยการ copy frontend.html แล้วเปลี่ยนตรง <h1> ดังนี้
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+            </head>
+            <body>
+                <h1>BackEnd Page</h1>
+            </body>
+            </html>
+35.57 ไปที่ frontend.html ใส่ส่วนของ extends base.html ไว้บันทัดบนสุด ดังนี้
+            {% extends 'base.html' %}
+36.36 ใน base.html ใส่ส่วนที่เป็น   {% block content %} และ {% endblock content %} เพื่อใช้แสดงข้อมูลจาก หน้า page อื่นที่ extends มายัง base.html ดังนี้   
+            <!-- ===== Block Content (from other pages) ======= -->
+            {% block content %}  {% endblock content %}  
+38.55 ไปที่ frontend.html ใส่ส่วนของ {% block content %} และ {% endblock content %}   เพื่อกำหนดเป็นส่วนของ <!-- Page Content --> เพื่อไปหยอดแสดงภายใต้ base.html ดังนี้                
+            <!-- Page Content -->
+            {% block content %} FrontEnd Page {% endblock content %}  
+39.06 ไปที่ urls.py เพิ่ม path ส่วนของ backend ดังนี้
+            # ===============
+            # Backend Section
+            # ===============
+            path('backend/', views.backend,name = 'backend'),  
+39.34 ไปที่ views.py ใน App สร้าง function ที่จะไปยัง template backend ดังนี้
+            # Function to render the backendPage
+            def backend(request):
+                return render(request,'back.html')
+39.53 สร้าง backend.html โดยปรับปรุงจากการ copy frontend.html มาดังนี้
+            {% extends 'base.html' %}
+            <!-- === Page Content   === -->
+            {% block content %}
+                <h1>BackEnd Page</h1>
+            {% endblock content %}
+41.20 ปรับปรุง base.html  โดยเรียก google ไปที่ https://getbootstrap.com/docs
+41.39 เลือก copy ในส่วนของ css มาวางบน base.html ในส่วนของ heading ดังนี้   (ทั้งนี้ต้องเลือกเป็น version 5.0.2 โดยหา version ที่มุมขวาบน)
+            <head>
+                <!-- Bootstrap 5 css -->
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+                <!--ending Bootstrap 5 css -->                
+                <title>Document</title>
+            </head>
+42.0 2 เลือก copy ในส่วนของ js แบบ bundle มาวางบน base.html ในส่วนของ body หลัง  block content ดังนี้  
+                <!-- Bootstrap 5 js (bundle) -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                <!--ending Bootstrap 5 js --> 
+42.43 ไปหาใน google หา font awesome intro w3schools  แล้วเลือก แถบ icon ทางซ้ายมือ เป็น Users & People Icons 
+      ลอง try it 1 icon แล้ว copy script มาวางใน <head></head> ดังนี้ 
+                 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>        
+45.12 ไปที่ fontend.html แก้ไขส่วนของ h1 ให้แสดง คำว่า Frontend Page ดังนี้
+                   <h1 class="text-danger text-center"><i class='fas fa-address-card' style='font-size:24px'></i> BackEnd Page</h1>
+      ที่ backend.html ก็ทำเช่นเดียวกัน ดังนี้ 
+               <h1 class="text-danger text-center"><i class='fas fa-address-card' style='font-size:24px'></i>BackEnd Page</h1>
+
+46.15 ไปที่ base.html สร้าง ส่วนของ wrapper โดยส่วนของ wrapper จะต้องคล่อม block contentดังนี้
+                <div class="wrapper">
+                    <header>
+                        <nav>
+                             <div>
+                                <a>
+                                   <i></i>
+                                </a>
+                            </div>
+                        </nav>
+                    </header>
+                    {% block content %} {% endblock content %}                    
+                </div>   <!--ending of wrapper -->
+      และส่วนของ footer จะอยู่ต่อจาก end of wrapper ดังนี้  
+                <footer>
+                </footer>
+48.19 ใส่ส่วนของ navbar เพิ่มเติมดังนี้
+                <nav class="navbar navbar-expand-ld navbar-dark bg-dark">
+                      <div class="col-sm">
+                          <a class="navbar-brand flex-grow-1" style="text-align: center; color:#fff; margin-left: 25px;">
+                                <i class="fas fa-address-card"></i>&nbsp; &nbsp;Btech Staff
+                          </a>
+                       </div>
+                  </nav>  
+51.41 เพิ่มส่วนของ ปุ่ม login เข้าไปใน navbar ดังนี้
+                       <div class="col-sm">
+                        <a href="#" class="btn btn-outline-info border-Light btn-sm">Login</a>
+                       </div>
+52.51 เพิื่อให้ปุ่ม login ไปชิดทางขวาของ navbar ให้ใส่ id ให้ปุ่ม login ชื่อว่า btn-nav แล้วไปสร้าง  css บังคับให้ชิดขวาดังนี้
+                    <a href="{% url 'backend' %}" class="btn btn-outline-info border-Light btn-sm" id="btn-nav" >Login</a>
+53.16 เพื่อการใช้งานของ css ใน static file จะต้อง load static ไว้ที่บันทัดแรกของ base.html ดังนี้
+                    {% load static %}
+
+53.32 สร้าง folder ชื่อ static ไว้ภายใน app  และให้สร้าง sub-folder ต่อไปนี้ไว้ภายใน folder static 
+                    1. sub-folder css 2. sub-folder js 3. sub-folder img
+53.49 ภายใน sub-folder css สร้าง file ชื่อ stlye.css
+54.07 ภายใน sub-folder js สร้าง file ชื่อ script.js
+54.49 ไปที่ google เพื่อหา icon facicon generator พิมพ์ favicon.cc  แล้วกดเลือก download favicon
+      ในที่นี้ ได้ download favicon มาใช้ 3 ตัวคือ favicon.ico เป็นรูป ตัว G / btech_favicon.png เป็นรูปขวดน้ำหอม / teaching.png เป็นรูปหนังสือปากกาหมวกครุย
+57.24 สร้าง Favicon/Logo/static css/ ใน  base.html ดังนี้
+                <!-- Favicon  -->
+                <link rel="shortcut icon" href={% static "img/favicon.ico" %}>
+                <!-- Logo  -->
+                <link rel="shortcut icon" href={% static "img/logo.ico" %}>    
+                <!-- static css  -->
+                <link rel="stylesheet" href={% static "css/style.css" %}>
+                <title>Document</title>
+
+1.00.29 เพิ่มเติมส่วนของ static JS ใน base.html ท้ายของ <body></body> ดังนี้
+                <!-- static  js -->
+                <script src="{% static "js/script.js" %}></script>
+                <!--ending static js --> 
+1.01.29 ไปที่ style.css กำหนด style ให้ส่วน body ของ page
+        /*=======================================
+        # Start Configuration
+        =======================================*/
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            max-width: 100%;
+            overflow: hidden;   /* slide ด้านข้าง */
+        }
+
+1.03.15 ไปที่ style.css (id=btn-nav) เพื่อแก้ให้ปุ่ม login อยู่ขวาสุด
+        /*=======================================
+        # navbar
+        =======================================*/
+        #btn-nav {
+            width: 90px;
+            float: right;     /* ให้ปุ่มลอยอยู่ขวาสุด */
+            margin-right: 25px;
+        }
+1.04.23 สร้างส่วน footer  (จะอยู่นอกส่วนของ wrapper)
+            </div>   <!--ending of wrapper -->
+            <footer class="bg-dark text-center text-lg-start" id="footer" style="color:#fff">
+                <div class="text-center p-3 " style="background-color: rgba(0, 0, 0, 0.2);">  <!-- p-3 หมายถึงความสูงของ background=3 -->
+                    Copyright &copy: {% now "Y" %} Allrights reserved | Made with           <!-- &copy จะแสดงเป็น อักษร c ภายในวงกลม  ซึ่งเป็นสัญญลักษณ์ของ copyrights  -->
+                    <i class="text-danger fas fa-heartbeat" style="font-size: 15px;"></i>&nbsp;by
+                    <a href="#" target="_blank" style="color: aqua; text-decoration: none;">Btech Staff</a>
+                </div>
+            </footer>
+
+1.10.28 ไปที่ style.css  สร้าง css ของ .wrapper และ (id="footer")
+            /*=======================================
+            # footer
+            =======================================*/
+            .wrapper {                     /* . ใช้กับ class   :  # ใช้กับ id  */
+                min-height: 100%;
+                margin-bottom: -50px;      /* เป็นการทำให้ footer ถูกดันไปใต้สุด - ด้วย 50px.   */
+            }
+            #footer,
+            .push {
+                height: 50px;
+                font-size: 15px;
+            } 
+1.13.30 ไปที่ frontend.html สร้างหน้า page ให้มีรูปเป็น background ดังนี้
+1.13.34 ไปที่ picbay.com เพือหารูปภาพ พิมพ์คำว่า employee เข้าไป เลือกรูปที่ต้องการแล้ว ลากรูปไปวางที่จุด แล้วกดปุ่ม download เลือกขนาดและ resolution ตามต้องการ
+        จากนั้นทำการ save    
+1.14.31 ก่อนนำรูปไปใช้ควรทำการบีบอัดรูปให้เล็กลง  โดยไปที่ google แล้วใส่คำว่า compressor.io  โปรแกรม COMPRESSOR จะแสดงขึ้นมา ลาก file จาก folder ของเรามาวาง
+        static/img  ในที่นี้เราใช้รูปจาก file ชื่อ frontend_bg.jpg ใน folder static/img เมือได้รุปมาแล้วเราควรจะบีบขนาดให้เล้กลง  
+        แล้ว save as ในชื่อ frontend_bg_condensor.jpg  แล้วนำไปใช้งานใน frontend.html
+1.17.16 ปรับปรุง frontend.html ให้มีการใช้ style.css เพื่อแสดงรูป background ดังนี้
+            <head>
+                <title>FrontEnd</title>
+            </head>
+            <style>
+                body {
+                    background-image: url(/static/img/frontend_bg_condensor.jpg);
+                    background-position: center 2px;
+                    background-repeat: no-repeat;
+                    background-attachment: fixed;
+                    background-size: cover;
+                }
+            </style>
+            </body>
+1.19.51 ไปที่ settings.py เพื่อสร้าง login/logout switching ดังนี้
+            # LOGIN/LOGOUT
+            LOGIN_REDIRECT_URL = 'backend'
+            LOGOUT_REDIRECT_URL = 'frontend'
+
+1.21.27 ไปที่ urls.py เพิ่มเติม path สำหรับ login ดังนี้
+            from django.urls import path,include
+                #path Login/Logout
+                path('login/', include('django.contrib.auth.urls'))
+1.22.46 สร้าง login required นั่นคือ ถ้าไม่ login ก่อน จะไปใช้ function อื่น ๆ ไม่ได้ โดย ไปแก้ไขใน views.py ดังนี้
+            #My Imports
+            from django.contrib.auth.decorators import login_required
+            และไปกำหนดใน function ของ backend ให้ต้องผ่านการ login มาเท่านั้น ถึงจะใช้ function backend ได้ ดังนี้
+
+            # Function to render the backend Page
+            @login_required(login_url="login")
+            def backend(request):
+                return render(request,'backend.html')
+1.24.40 ไปที่ urls.py เพิ่มเติม path สำหรับ backend page ดังนี้
+            # ===============
+            # Backend Section
+            # ===============
+            path('backend/', views.backend,name = 'backend'), 
+1.25.15 สร้าง folder ชื่อ registration ภายใต้ templates
+1.25.19 สร้าง file ชื่อ login.html ภายใต้ folder registration ดังนี้
+            {% extends 'base.html' %}            
+            <!-- === Page Content   === -->
+            {% block content %}
+            <div class="container mt-5">
+                <div class="card p-3 boder-dark">
+                    <a class="btn btn-outline-dark mt-3"><i class="fas fa-lock"></i>&nbsp;&nbsp; RESTRICTED ACCESS</a>
+                    <form method="POST" autocomplete="off" novalidate>
+                        {% csrf_token %}
+                        <div class="input-group mb-3 mt-5">
+                            <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                            <input type="text" class="form-control" name="username" placeholder="Username">
+                        </div>
+                        <div class="input-group mb-3 mt-5">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" class="form-control" name="password" placeholder="Password">
+                        </div>
+                        <input class="btn btn-primary btn-sm mt-4 mb-3" type="submit" value="Enter">
+
+                    </form>
+                </div>
+            </div>   <!-- end container -->
+            {% endblock %}
+1.33.16 ไปแก้ไขใน base.html ให้เมื่่อ click ปุ่ม login แล้วให้โยงไปที่ backend.html ดังนี้
+            <a href="{% url 'backend' %}" class="btn btn-outline-info border-Light btn-sm" id="btn-nav" >Login</a>
+1.36.45 แก้ไขใน base.html โดยกำหนดเป็นกลุ่ม ๆ (เป็น block) ดังนี้
+   1.กลุ่ม {% block navbar-content %}{% endblock navbar-content %} 
+                <div class="col-sm">
+                    <a class="navbar-brand flex-grow-1" style="text-align: center; color:#fff; margin-left: 25px;">
+                        {% block navbar-content %}
+                        <i class="fas fa-briefcase-medical"></i>&nbsp; &nbsp;Btech Staff
+                        {% endblock navbar-content %}
+                    </a>
+                </div>
+   2.กลุ่ม {% block nav-btn %}{% endblock nav-btn %}                
+                    <div class="col-sm">
+                        {% block nav-btn %}
+                        <a href="{% url 'backend' %}" class="btn btn-outline-info border-Light btn-sm" id="btn-nav" >Login</a>
+                        {% endblock nav-btn %}
+                    </div>
+1.40.47 ไปที่ login.html จัดกลุ่ม navbar content และ nav-btn เช่นกัน ดังนี้ 
+                <!-- === Navbar Content   === -->
+                {% block navbar-content %}
+                <i class="fas fa-stethoscope"></i>&nbsp; &nbsp;Login
+                {% endblock navbar-content %}
+
+                <!-- Button on navbar -->
+                {% block nav-btn %}
+                <a href="{% url 'frontend' %}" class="btn btn-outline-primary border-Light text-light btn-sm" id="btn-nav" >Go Back</a>
+                {% endblock nav-btn %}
+
+1.41.43 สร้าง id สำหรับปุ่ม enter ใน login.html เป็น btn-enter ดังนี้
+                <input class="btn btn-primary btn-sm mt-4 mb-3" type="submit" value="Enter" id="btn-enter">
+1.41.54 ไปที่ style.css สร้าง style ให้กับปุ่ม id="btn-enter" ดังนี้
+                /*=======================================
+                # LOGIN
+                =======================================*/
+                #btn-enter {
+                    width: 90px;
+                }
+1.44.14 ทำการ create superuser                
+1.45.01 ไปที่ backend.html จัดกลุ่ม navbar content และ nav-btn เช่นกัน ดังนี้ 
+                <!-- === Navbar Content   === -->
+                {% block navbar-content %}
+                <i class='fas fa-address-card'  style='font-size:24px'></i>&nbsp; &nbsp;Btech Staff
+                {% endblock navbar-content %}
+
+                <!-- Button on navbar -->
+                {% block nav-btn %}
+                <a href="{% url 'logout' %}" class="btn btn-outline-danger border-Light text-light btn-sm" id="btn-nav" >Logout</a>
+                {% endblock nav-btn %}
+
+1.47.27  เพิ่มรูป หัวใจเต้น ใน login.html ดังนี้
+            <!-- Heart Pulse -->
+            <center id="Heart">
+                <i class="text-primary fas fa-heartbeat fa-10x"></i>
+            </center>
+1.49.23 ไปที่ style.css เพิ่มส่วนของ id Heart  ดังนี้
+            #heart {
+                position: absolute;
+                top: 70%;
+                left: 50%;
+                margin-right: -50%; 
+                transform: translate(-50%, -50%);
+                font-size: 20px;     
+            }
+1.51.20 ไปที่ google ค้นหา  jquery CDN แล้วเลือก  jQuery CDN
+        ที่ jQuery 3.x เลือกส่วนที่เป็น minified แล้วมาวางใน base.html ก่อนส่วนของ static js ดังนี้
+            <!-- jQuery -->    
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+            <!--ending jQuery --> 
+1.51.54 สร้าง script blink_me เพื่อให้ รูปหัวใจมีการ fadein fadeout  ต่อท้ายสุด ดังนี้
+                <script>
+                (function blink() {
+                    $('.blink_me').fadeOut(1000).fadeIn(1000,blink);
+                })();
+            </script>
+1.53.12 ไปแก้ไข fas fa-heartbeat ทั้งใน footer ของ base.html และใน login.html ดังนี้
+
+        ใน login.html    <center id="Heart">
+                            <i class="text-primary fas fa-heartbeat fa-10x blink_me" ></i>
+                         </center>
+        ใน base.html    <div class="text-center p-3 " style="background-color: rgba(0, 0, 0, 0.2);">  <!-- p-3 หมายถึงความสูงของ background=3 -->
+                            Copyright &copy: {% now "Y" %} Allrights reserved | Made with           <!-- &copy จะแสดงเป็น อักษร c ภายในวงกลม  ซึ่งเป็นสัญญลักษณ์ของ copyrights  -->
+                            <i class="text-danger fas fa-heartbeat blink_me" style="font-size: 15px;"></i>&nbsp;by
+                            <a href="#" target="_blank" style="color: aqua; text-decoration: none;">Btech Staff</a>
+                        </div>   
+1.54.34 ปรับปรุง login.html ให้แสดง message กรณีมีความผิดพลาด ดังนี้
+            <!-- message from backend -->   
+            {% if form.errors %}
+               
+            {% endif %}   
+1.54.  สำหรับข้อความของ message ไปที่ google ค้นคำว่า sweetalert แล้วเลือก Guilds ที่ CDN ให้ copy scripts มาวางใน login.html ใน tag if ดังนี้
+            <!-- message from backend -->   
+            {% if form.errors %}
+               <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            {% endif %} 
+            แล้วตามด้วย scripts ของ swal ที่จะแสดงให้ ผู้ใช้งานเห็น ดังนี้  
+            <script>
+                swal("Denied !","Enter your data correctly","error")
+            </script>
+ต่อไปเป็นการทำส่วนของ BackEnd
+1.58.15 ไปสร้างข้อมูลใน models.py ดังนี้
+            from django.db import models
+
+            class Staff(models.Model):
+                GENDER = (
+                    ('M','Male'),
+                    ('F','Female'),        
+                )
+                title_list=(('ดช.','ดช.'),
+                            ('ดญ.','ดญ.'),
+                            ('นาย','นาย'),
+                            ('นส.','นส.'))
+                id = models.IntegerField(primary_key=True)
+                title = models.CharField(max_length=10)
+                first_name = models.CharField(max_length=35)
+                last_name = models.CharField(max_length=35)  
+                mobile = models.CharField(max_length=30)
+                card_id_no = models.CharField(max_length=20)
+                age = models.CharField(max_length=3)
+                gender = models.CharField(max_length=1,null=True,choices=GENDER)
+                email = models.CharField(max_length=30)
+                address = models.TextField()
+                created_at = models.DateTimeField(auto_now_add=True)
+
+                def __str__(self):
+                    return self.first_name + " " + self.last_name  
+2.04.34 ทำการ makemigrations และ migrate
+2.05.04 ไปที่ admin.py  ทำการขึ้นทะเบียน Staff model ใน admin administration panel ดังนี้
+                from django.contrib import admin
+                from App.models import Staff
+
+                # Register your models here.
+                class StaffAdmin(admin.ModelAdmin):
+                    list_display = ['title','first_name','last_name','mobile','card_id_no','email','gender','age','address','created_at']
+                    search_fields = ['first_name','last_name','email','age']
+                    list_filter = ['gender']
+                    list_per_page = 10    
+                admin.site.register(Staff,StaffAdmin)   
+                                admin.site.register(Staff,StaffAdmin)
+2.19.07 ไปที่ ulrs.py สร้าง path สำหรับการ add new staff ดังนี้
+                #path to add new staff
+                path('add_staff/', views.add_staff,name = 'add_staff'),   
+
+2.19.50 สร้าง function สำหรับ add_staff ดังนี้
+                # Function to insert new staff
+                @login_required(login_url="login")
+                def add_staff(request):
+                    if request.method == "POST":
+                        if request.POST.get('title') and request.POST.get('first_name') and request.POST.get('last_name') and request.POST.get('mobile') and request.POST.get('card_id_no') and request.POST.get('age') and request.POST.get('gender') and request.POST.get('email') and request.POST.get('address'):
+                            staff = Staff() 
+                            staff.title =   request.POST.get('title')
+                            staff.first_name =   request.POST.get('first_name')            
+                            staff.last_name =   request.POST.get('last_name')
+                            staff.mobile =   request.POST.get('mobile')        
+                            staff.card_id_no =   request.POST.get('card_id_no')
+                            staff.age =   request.POST.get('age')            
+                            staff.gender =   request.POST.get('gender')
+                            staff.email =   request.POST.get('email')   
+                            staff.address =   request.POST.get('address') 
+                            staff.save() 
+                            messages.success(request,'Staff added successfully !')
+                    else:
+                            return render(request,'add_staff.html')
+2.28.36 สร้าง html file ชื่อ add_staff.html ใน templates ดังนี้
+                    {% extends 'base.html' %}
+                    <!-- === Page Content   === -->
+                    {% block content %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card card-body border-dark text-primary mt-5">
+                                        <span class="text-center">Fill Out The Form Below</span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock content %}
+        ทดลอง run server โดยใส่ URL เป็น localhost/add_staff จะเห็นหน้า Page สวยงาม
+2.32.39 ใส่ส่วนที่เป็น form ที่จะใช้กรอกข้อมูล ดังนี้
+                    <form action="/add_staff" method="POST" autocomplete="off" enctype="multipart/form-data" class="card p-5 border-dark mt-3">
+                    <!--class="card p-5 border-dark mt-3   p-3 หมายถึง 3 พารากราฟ mt-3 หมายถึง margin top 3 px -->
+                            <div>
+                                <span></span>
+                                <input type="text">
+                            </div>
+                    </form>
+2.34.02 ปรับปรุง ส่วนที่จะให้ผู้ใช้กรอกข้อมูล ทั้งหัวข้อที่แสดง และช่องที่จะกรอก ดังนี้
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text">ชื่อ</span>
+                         <input type="text" class="form-control" name="first_name" placeholder="...ชื่อ">
+                    </div>
+2.36.42 copy ส่วนของ div tag เพื่อไปใช้กรอกข้อมูลนามสกุล ดังนี้
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text">นามสกุล</span>
+                         <input type="text" class="form-control" name="last_name" placeholder="...นามสกุล">
+                    </div>
+2.36.49 และ copy เพิ่มเติมจนครบทุก field ตามที่ต้องการ
+2.37.23 สำหรับ field ที่ใช้กรอก email  input type ต้องเป็น email ดังนี้
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text">E-mail</span>
+                         <input type="email" class="form-control" name="email" placeholder="...E-mail">
+                    </div>
+2.38.30 สำหรับ field ที่ต้องกรอกแบบตัวเลือก ต้องใช้ select option tag เช่น เพศ และ คำนำหน้า ดังนี้
+                    <div class="input-group input-group-sm mb-3">
+                         <label class="input-group-text">คำนำหน้า</label>
+                         <select class="form-select" name="title">
+                              <option value="" hidden>กรุณาเลือกคำนำหน้า</option>
+                              <option disabled></option>
+                              <option>นาย</option>
+                              <option>นางสาว</option>
+                              <option>นาง</option>                              
+                         </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                         <label class="input-group-text">เพศ</label>
+                         <select class="form-select" name="gender">
+                              <option value="" hidden>กรุณาเลือกเพศ</option>
+                              <option disabled></option>
+                              <option>ชาย</option>
+                              <option>หญิง</option>
+                         </select>
+                    </div>  
+2.41.08 สำหรับ field ที่ต้องกรอกแบบยาวยาว ต้องใช้ textarea tag เช่น ที่อยู่ ดังนี้
+                    <div class="form-group">
+                         <textarea class="form-control" name="address" rows="5" placeholder="...ที่อยู่" ></textarea>
+                    </div>  
+2.42.09 ใส่ส่วนที่ปุ่มกดคำสั่ง ดังนี้
+2.45.42 ปรับปรุง backend.html เพื่อให้แสดง username และแสดงปุ่มให้ผู้ใช้กดเพิ่ม staff ดังนี้
+                    <!-- === Page Content   === -->
+                    {% block content %}
+                        <div class="container">
+                            <br><br>
+
+                            <!-- Add button and get username -->
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'add_staff' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i>&nbsp; &nbsp;Add Staff</a>
+                                <span>
+                                    Welcome: <strong><span class="text-primary">{{user.get_username}}</span></strong>
+                                </span>
+                            </div>
+
+                        </div>  <!--End container-->
+                    {% endblock content %}
+2.51.16 ใส่ csrf_token เพื่อไม่ให้เกิด error ดังนี้
+               <form action="/add_staff" method="POST" autocomplete="off" enctype="multipart/form-data" class="card p-5 border-dark mt-3">
+               <!--class="card p-5 border-dark mt-3   p-3 หมายถึง 3 พารากราฟ mt-3 หมายถึง margin top 3 px -->
+                    {% csrf_token %}
+2.52.44 ไปปรับปรุง views.py เพื่อให้การแสดงผล html ได้ถุกต้อง ดังนี้
+                from django.contrib import messages
+                from django.http import HttpResponseRedirect
+                ...
+                ...
+                ...
+                     messages.success(request,'Staff added successfully !')
+                    return HttpResponseRedirect('/backend')
+                else:
+2.56.20 เพิ่มส่วนแสดง messages ใน backend.html ดังนี้
+                {% for message in messages %}
+                    {% if message.tags == 'success' %} 
+
+                    {% endif %}
+                {% endfor %} 
+2.57.31 ไปที่ login.html copy scripts ส่วนของ sweetalert message มาวาง ดังนี้   
+                {% if message.tags == 'success' %} 
+                    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                {% endif %}
+2.57.52 เขียน script เพิ่มเติม เพื่อแสดงข้อความของ message ดังนี้
+                <script>
+                    var m = "{{ message}}"
+                    swal("Perfect !", m,"success")
+                </script>
+3.01.14 ไปที่ add_staff.html ปรับปรุงปุ่ม back ให้สามารถโยงกลับไปที่ backend.html ได้ ดังนี้
+                <a href="{% url 'backend' %}" class="btn btn-dark btn-sm"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+3.04.04 ใส่ funtion เพิ่มเติมใน หน้า backend page เดิม มีเฉพาะ add_staff จะต้องเพิ่มการ Search, Reset โดยใส่โครงสร้าง ดังนี้ 
+                <!-- Insert Search + Search Button + Reset Button -->  
+                <form>
+                    <div>
+                        <input type="text">
+                        <button></button>
+                        <a></a>
+                    </div>
+                </form>   
+3.05.37 ปรับปรุงรายละเอียดของโครงสร้าว form ดังนี้
+                <!-- Insert Search + Search Button + Reset Button -->  
+                <form >
+                    <div class="input-group input-group-sm mb-3 mt-4">
+                        <input type="text" class="form-control" name="q" placeholder="Search for ...">
+                        <button class="btn btn-secondary"><i class="fas fa-search"></i></button>
+                        <a href="{% url 'backend' %}" class="btn btn-dark" style="margin-left: 10px;"><i class="fas fa-sync-alt"></i></a>
+                    </div>
+                </form>
+3.12.00 เพิ่มส่วนแสดงผลจากการ Search ในรูปของ table โดยกำหนดโครงสร้าง ดังนี้
+                <!-- Table --> 
+                <center>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </center>
+3.12.11 ปรับปรุงรายละเอียดของโครงสร้าง ดังนี้
+                <table class="table table-bordered table-sm mt-4" style="text-align: center; font-size: 14px;">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>คำนำหน้า</th>
+                            <th>ชื่อ</th>
+                            <th>นามสกุล</th>
+                            <th>เลขบัตร ปชช.</th>
+                            <th>เบอร์โทรศัพท์</th>
+                            <th>E-mail</th>
+                            <th>เพศ</th>
+                            <th>อายุ</th>
+                            <th>ที่อยู่</th>                        
+                        </tr>
+                    </thead>
+3.17.02 สร้างโครงสร้างสำหรับแสดงส่วนของ Pagination ดังนี้
+                    <!-- Pagination -->
+                    <nav>
+                        <ul>
+                            <a></a>
+                            <li></li>
+
+                            <li></li>
+
+                            <li></li>
+
+                            <li></li>
+                            
+                            <li></li>
+
+                            <li></li>  
+                            
+                            <a></a>
+                            
+                            <li></li>                
+                        </ul>
+                    </nav>
+3.18.44 ปรับปรุงรายละเอียดของโครงสร้าง เพื่อให้แสดงปุ่ม Last First เลื่อนซ้าย (<<) และเลื่อนขวา (>>) ดังนี้
+                    <!-- Pagination -->
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-left">
+                            <a href="#" class="btn btn-outline-primary mb-4" style="width: 60px; border-radius: 1px; border: 1px solid #d3d3d3;">First</a>
+                            <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li>
+
+                            <li class="page-item disabled"></li>
+
+                            <li class="page-item active"><span class="page-link"><span class="sr-only"></span></span></li>
+
+                            <li class="page-item"><a class="page-link" href="#"></a></li>
+
+                            <li class="page-item"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                            
+                            <a href="#" class="btn btn-outline-primary mb-4" style="width: 60px; border-radius: 1px; border: 1px solid #d3d3d3;">Last</a>                
+
+                            <li class="page-item disabled"></li>  
+
+                    
+                        </ul>
+                    </nav>
+3.27.23 ใส่ if expression เพื่อกำหนดเงื่อนไขว่าจะแสดง ปุ่มต่าง ๆ Last First เลื่อนซ้าย (<<) และเลื่อนขวา (>>) นี้อย่างไร ดังนี้
+                    <!-- Pagination -->
+                    <nav class="mt-4">
+                        {% if staffs.has_other_pages %}
+                        <ul class="pagination justify-content-left">
+                            {% if staffs.has_previous %}                
+                                <a href="?page=1" class="btn btn-outline-primary mb-4" style="width: 60px; border-radius: 1px; border: 1px solid #d3d3d3;">First</a>
+                                <li class="page-item"><a class="page-link" href="?page={{ staffs.previous_page_number }}"><i class="fas fa-angle-double-left"></i></a></li>
+                            {% else %} 
+                                <li class="page-item disabled"></li>
+                            {% endif %} 
+
+                            {% for i in staffs.paginator.page_range %} 
+                                {% if staffs.number == i %}      
+                                    <li class="page-item active"><span class="page-link">{{ i }}<span class="sr-only"></span></span></li>
+                                {% else %}    
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}   
+                            {% if staffs.has_next %}                
+                                <li class="page-item"><a class="page-link" href="?page={{ staffs.next_page_number }}"><i class="fas fa-angle-double-right"></i></a></li>
+                                <a href="?page={{ staffs.paginator.num_pages }}" class="btn btn-outline-primary mb-4" style="width: 60px; border-radius: 1px; border: 1px solid #d3d3d3;">Last</a>                
+                            {% else %} 
+                                <li class="page-item disabled"></li>  
+                            {% endif %}          
+                        </ul>
+                        {% endif %}               
+                    </nav>
+3.35.27 ไปที่ views.py เพื่อแก้ไขส่วนของ backend function ดังนี้
+                    from django.db.models import Q
+                    from django.core.paginator import Paginator
+                    # Function to render the backend Page
+                    @login_required(login_url="login")
+                    def backend(request):
+                        if 'q'in request.GET:
+                            q = request.Get['q']
+                            all_staff_list = Staff.objects.filter(
+                                Q(first_name__icontains=q) |   Q(last_name__icontains=q) |  Q(mobile__icontains=q) |  Q(card_id_no__icontains=q) |  Q(email__icontains=q)
+                            ).order_by('-created_at')
+                        else:
+                            all_staff_list = Staff.objects.all().order_by('-created_at')
+                        paginator = Paginator(all_staff_list,10)
+                        page = request.GET.get('page')
+                        all_staff = paginator.get_page(page)
+                        return render(request,'backend.html',{'staffs':all_staff})
+3.44.53 ไปแก้ไขที่ backend.html เอา field ที่ส่งผ่านมาจาก views.py มาแสดงบน backend.html ดังนี้
+
+                        {% for staff in staffs %}
+                        <tr>
+                            <td>{{staff.title}}</td>
+                            <td>{{staff.first_name}}</td>
+                            <td>{{staff.last_name}}</td>
+                            <td>{{staff.card_id_no}}</td>
+                            <td>{{staff.mobile}}</td>                        
+                            <td>{{staff.email}}</td>
+                            <td>{{staff.gender}}</td>                        
+                            <td>{{staff.age}}</td>                        
+                            <td>{{staff.address}}</td>   
+                            <td>{{staff.created_at | date:'m/d/Y (H:i)'}}</td>   
+                        </tr>
+                        {% endfor %}   
+3.48.28 ทดลอง runserver ดู จะเห็นว่าสามาราถ view ดูข้อมูล Stafff ได้ แต่ Paginator ไม่แสดง
+       ทั้งนี้เพราะ กำหนดต่อ 1 หน้า เท่ากับ 10 แต่ข้อมูลเรามีเพียง 1 record เท่านั้น ดังนั้นลองไปปรับที่ views.py ให้ ต่อ 1 หน้า เท่ากับ 2 ดังนี้
+                        paginator = Paginator(all_staff_list,2)  ทดลอง runserver ใหม่ paginator จะแสดงขึ้นมาถูกต้อง
+4.02.00 ไปที่ backend.html เพื่อใส่ปุ่ม action ดังนี้
+                        <td>
+                            <a class="btn btn-primary btn-sm" href="#" title="Edit staff"><i class="fas fa-pen"></i></a>
+                        </td>    
+                        <td>
+                            <a class="btn btn-secondary btn-sm" href="#" title="Delete staff"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+4.03.35 จะเห็นว้า Heading ของ Action มี column เดียว ต้องปรับให้คลอบคลุม 2 column ดังนี้
+                        <th colspan="2">Action</th>  
+4.05.56 ปรับปรุง heading ให้มีความกว้างของแต่ละ column เหมาะสม โดยกำหนด % ให้แต่ละ column โดยเมื่อรวมทุก column และจะต้องได้ 100% ดังนี้
+                        <th style="width: 4%;">คำนำหน้า</th>
+                        <th style="width: 11%;">ชื่อ</th>
+                        <th style="width: 12;">นามสกุล</th>
+                        <th style="width: 10%;">เลขบัตร ปชช.</th>
+                        <th style="width: 10%;">เบอร์โทรศัพท์</th>
+                        <th style="width: 8%;">E-mail</th>
+                        <th style="width: 4%;">เพศ</th>
+                        <th style="width: 4%;">อายุ</th>
+                        <th style="width: 20%;">ที่อยู่</th>   
+                        <th style="width: 10%;">Registered</th>  
+                        <th style="width: 7%;" colspan="2">Action</th> 
+4.09.34 ปรับปรุง function สำหรับ การ Edit staff 
+        ไปที่ urls.py สร้าง path สำหรับการเข้าถึง staff รายบุคคล ดังนี้
+                        #path to access the staff individually
+                        path('staff/<str:staff_id', views.staff,name = 'staff'), 
+4.11.06 ไปที่ views.py สร้าง function edit_staff ตามที่ระบุใน urls.py
+                        @login_required(login_url="login")
+                        def edit_staff(request,staff_id):
+                            staff = Staff.objects.get(id = staff_id)
+                            if staff != None:
+                                return render(request,"edit_staff.html",{'staff':staff})
+4.14.00 สร้าง html file ชื่อ edit_staff.html โดย เราอาศัยการ extends add_staff.html มา ดังนี้
+        ก่อนอื่น เราต้องเข้าไปปรับปรุง input field ใน add_staff.html ให้มี tag block value ในทุก field ก่อนดังนี้
+                       <input type="text" class="form-control" name="first_name" placeholder="...ชื่อ" {% block value-first_name %} {% endblock value-first_name %}>   
+                       <input type="text" class="form-control" name="last_name" placeholder="...นามสกุล" {% block value-last_name %} {% endblock value-last_name %}>
+                       <input type="text" class="form-control" name="mobile" placeholder="...เบอร์โทร" {% block value-mobile %} {% endblock value-mobile %} >
+                       <input type="text" class="form-control" name="card_id_no" placeholder="...เลขบัตร ปชช." {% block value-card_id_no %} {% endblock value-card_id_no %}>      
+                       <input type="text" class="form-control" name="age" placeholder="...อายุ" {% block value-age %} {% endblock value-age %}> 
+                       <input type="email" class="form-control" name="email" placeholder="...E-mail" {% block value-email %} {% endblock value-email %} > 
+        จากนั้น นำ block value นี้ ไปวางใน edit_staff.html โดยในรับค่าจาก views.py ที่ส่งมา ดังนี้
+                        {% extends 'add_staff.html' %}
+
+                        <!--===============  All <input> Extended  ===============-->
+                        {% block value-first_name %} value = "{{ staff.first_name }}" {% endblock value-first_name %}
+                        {% block value-last_name %} value = "{{ staff.last_name }}" {% endblock value-last_name %}
+                        {% block value-mobile %} value = "{{ staff.mobile }}" {% endblock value-mobile %}
+                        {% block value-card_id_no %} value = "{{ staff.card_id_no }}" {% endblock value-card_id_no %}
+                        {% block value-age %}  value = "{{ staff.age }}"{% endblock value-age %}
+                        {% block value-email %} value = "{{ staff.email }}"  {% endblock value-email %}
+4.19.32 สำหรับ field ที่เป็น การ select option  กำหนด block option ใน add_staff.html ดังนี้
+            gender      {% block option-gender %}
+                        <option value="" hidden>กรุณาเลือกเพศ</option>
+                        {% endblock option-gender %} 
+            title       {% block option-title %}
+                        <option value="" hidden>กรุณาเลือกคำนำหน้า</option>
+                        {% endblock option-title %}
+        และวางใน edit_staff.html ดังนี้
+                        <!-- gender-->
+                        {% block option-gender %}
+                            <option style="background-color: #d3d3d3; color: #007bff;">{{staff.gender}}</option>
+                        {% endblock option-gender %}
+                        <!-- title-->
+                        {% block option-title %}
+                            <option style="background-color: #d3d3d3; color: #007bff;">{{staff.title}}</option>
+                        {% endblock option-title %}
+4.24.19 สำหรับ field ที่เป็น textarea กำหนด block value ใน add_staff.html ดังนี้
+                        <textarea class="form-control" name="address" rows="5" placeholder="...ที่อยู่" >{% block address %} {% endblock address %}</textarea>
+        และวางใน edit_staff.html ดังนี้
+                        <!-- address-->
+                        {% block address %}{{staff.address}}{% endblock address %}
+        ข้อสำคัญในการวาง field ที่เป็น textarea จะมีช่องว่ง ระหว่าง block และ endblock ไม่ได้ ข้อมูลจะไม่ถุกดึงเข้ามา เช่น
+                        {% block address %} {{staff.address}} {% endblock address %}  ---> อย่างนี้ไม่ได้เด็ดขาด
+4.26.57 ใน add_staff.html จะเห็นว่าหัวข้อของแต่ละ field จะมีความยาวไม่เท่ากัน ทำให้ไม่สวยงาม  สามารถปรับปรุง โดยการใส่ side-label เข้าไปใน span ดังนี้
+                         <label class="input-group-text side-label">คำนำหน้า</label>
+                         <span class="input-group-text side-label">ชื่อ</span> 
+                         <span class="input-group-text side-label">นามสกุล</span>                                              
+4.28.03 จากนั้นไปสร้าง css group side-label ดังนี้
+                        /*=======================================
+                        # ฺBACKEND
+                        =======================================*/
+                        .side-label {
+                            width: 75px;
+                        }
+4.30.25 ไป copy ส่วนของ navbar ใน backend.html มาวางบนสุดของ add_staff.html และเปลี่ยน หัวข้อเป็น Add Staff เปลี่ยน icon ให้เป็นรูป user plus ดังนี้
+                        <!-- === Navbar Content   === -->
+                        {% block navbar-content %}
+                        <i class='fas fa-user-plus'  style='font-size:24px'></i>&nbsp; &nbsp;Add Staff
+                        {% endblock navbar-content %}
+
+                        <!-- Button on navbar -->
+                        {% block nav-btn %}
+                        <a href="{% url 'logout' %}" class="btn btn-outline-danger border-Light text-light btn-sm" id="btn-nav" >Logout</a>
+                        {% endblock nav-btn %}
+4.31.50 ไป copy ส่วนของ navbar ใน backend.html มาวางบนสุดของ edit_staff.html และเปลี่ยน หัวข้อเป็น ชื่อของ Staff ทีกำลังแก้ไข และ เปลี่ยน icon ให้เป็นรูป user edit ดังนี้
+                        <!-- === Navbar Content   === -->
+                        {% block navbar-content %}
+                        <i class='fas fa-user-edit'  style='font-size:24px'></i>&nbsp; &nbsp;{{staff.first_name}}&nbsp;{{staff.last_name}}
+                        {% endblock navbar-content %}
+4.33.11 เนื่องจาก ทั้ง add_staff.html และ edit_staff.html ต่างแสดงหัวข้อของบันทัดหลักเดียวกันคือ Fill Out The Form Below เราต้องทำปรับปรุงให้แต่ละ page แสดงหัวข้อต่างกัน ดังนี้
+        ไปที่ add_staff.html ใส่ block card-title ตรงหัวเรื่อง ดังนี้
+                        <span class="text-center">{% block card-title %} Fill Out The Form Below {% endblock card-title %}</span> 
+4.33.56 ไปที่ edit_staff.html ใส่ block card-title ตรงหัวเรื่อง ดังนี้
+                        <!-- Card title (in add_staff.html) extended hear-->
+                        {% block card-title %}
+                        Registered at: <span class="text-dark">{{ staff.created_at | date:'m/d/Y (H:i)'}}</span> 
+                        {% endblock card-title %}
+4.37.53 การเปลี่ยนปุ่ม ของ add_staff และ edit_staff ให้ไม่เหมือนกัน
+        ไปที่ add.html ทำการคลอบ block Btn-add ดังนี้
+                        {% block Btn-add %}
+                        <i class="fas fa-plus"></i>&nbsp;&nbsp; Add
+                        {% endblock Btn-add %}
+        ไปที่ edit_staff.html ใส่ block  Btn-add ดังนี้
+                        <!-- Add button extend here-->
+                        {% block Btn-add %}
+                        <i class="fas fa-hdd"></i>&nbsp;&nbsp; Save
+                        {% endblock Btn-add %} 
+4.41.15 ทำการ update ข้อมูลในฐานข้อมูล
+        ไปที่ urls.py สร้าง path สำหรับการ save ข้อมูล ดังนี้
+                        #path to save staff
+                        path('save_staff', views.save_staff,name = 'save_staff'),
+4.42.21 สร้าง function สำหรับ save_staff ดังนี้
+                        @login_required(login_url="login")
+                        def save_staff(request):
+                            if request.method == "POST": 
+                            staff = Staff.objects.get(id = request.POST.get('id'))  
+                            if staff != None:                  
+                                    staff.title = request.POST.get('title')
+                                    staff.first_name = request.POST.get('first_name')   
+                                    staff.last_name = request.POST.get('last_name')
+                                    staff.mobile = request.POST.get('mobile')                
+                                    staff.card_id_no = request.POST.get('card_id_no')
+                                    staff.age = request.POST.get('age')   
+                                    staff.gender = request.POST.get('gender')
+                                    staff.email = request.POST.get('email') 
+                                    staff.address = request.POST.get('address')   
+                                    staff.save()    
+
+                                    messages.success(request, "Staff update successfullty !") 
+                                    return HttpResponseRedirect('backend')
+4.47.58 การใส่ block ใน form เพื่อให้การ action โยงไปยัง urls ไม่เหมือนกัน
+        ไปที่ add_staff.html ใส่ block action ดังนี้
+                       <form {% block Action %} action="/add_staff" {% endblock Action %}  method="POST" autocomplete="off" enctype="multipart/form-data" class="card p-5 border-dark mt-3">
+4.48.43 ไปที่ edit_staff.html ใส่ block Action ดังนี้
+                       <!-- Block Form Action-->
+                       {% block Action %} action="/save_staff" {% endblock Action %}
+4.50.48 ทำการควบคุม ID โดยการใช้ block 
+        ไปที่ add_staff.html ใส่ block ID ดังนี้
+                       <!-- ID Hidden (denied here)-->       
+                       {% block Id-hidden %}{% endblock Id-hidden %} 
+
+4.51.00 ไปที่ edit_staff.html ใส่ block ID ดังนี้
+                        <!-- ID Hidden-->
+                        {% block Id-hidden %}
+                        <input type="hidden" value="{{ staff.id }}" name="id">
+                        {% endblock Id-hidden %}
+4.58.55 ใน backend.html ในช่อง Search for เมื่อเราใส่ของมูลที่จะค้นหาไปแล้ว กด enter แล้ว ข้อมูลที่เราใส่เข้าไปจะหายไป ทำให้เมื่อเรากด enter อีกครั้งหนึ่ง จะไม่ได้ข้อมูลเดิม แนวทางแก้ไขทำดังนี้
+        ไปแก้ที่ backend.html บันทัด <input type="text" "Search for ..."> ให้แก้ไขดังนี้
+                        <input type="text" class="form-control" name="q" placeholder="Search for ..." value="{{ request.GET.q }}">
+5.01.01 การทำ function delete ข้อมูล
+        ไปที่ views.py เพิ่มรายการ from django ดังนี้
+                        from django.views.decorators.cache import cache_control
+5.02.40 เพิ่มรายการ cache นี้ บนหัวของ function backend
+        @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+        และ copy ไปวางไว้บนหัวของทุกทุก function
+5.07.21 ไปที่ urls.py เพื่อสร้าง  path ที่จะโยงไปยัง function delete ดังนี้
+                    #path to delete the staff 
+                    path('delete_staff/<str:staff_id>', views.delete_staff,name = 'delete_staff'), 
+5.08.32 ไปที่ views.py สร้าง function delete ดังนี้
+                    # Function to remove staff       
+                    @cache_control(no_cache=True, must_revalidade=True, no_store=True)
+                    @login_required(login_url="login")
+                    def delete_staff(request,staff_id):
+                        staff = Staff.objects.get(id = staff_id)
+                        staff.delete()
+
+                        messages.success(request, "Staff remove successfullty !") 
+                        return HttpResponseRedirect('backend')
+5.10.42 ไปที่ backend.html แก้ไขปุ่ม delete ให้สามารถโยงไปยัง path delete_staff ใน urls.py ดังนี้
+                    <a class="btn btn-secondary btn-sm" href="{% url 'delete_staff' staff.id %}" title="Delete staff"><i class="fas fa-trash-alt"></i></a>
+5.12.07 เขียน script ใน script.js ซึ่งอยู่ใน folder static ซึ่งมีการเรียกใช้จาก base.html อยู่แล้ว ดังนี้
+                    /* --------------------------------------------------
+                    #  All scripts here it will extends to all the pages 
+                    ----------------------------------------------------*/
+                    // 1) If no staff, show the message
+
+                    $(document).ready(function() {
+                        var verify = $("#chk_td").length;
+                            if (verify == 0) {
+                                $("#no-data").text("No staff found");
+                            }
+                    });
+5.15.53 ไปที่ backend.html ใส่ ID chk_td เพื่อให้มาเรียก script.js ดังนี้
+                    {% for staff in staffs %}
+                    <tr id="chk_td"> 
+5.16.05 ไปที่ backend.html ใส่ ID no-data เพื่อนำ script.js ให้มาแสดง  ดังนี้
+                    </div>  <!--End container-->
+                    <!--  If no staff,show this span message  --> 
+                    <span class="text-danger" id="no-data"></span>
+                {% endblock content %}
+5.19.01 ไปที่ style.css สร้างกลุ่ม #no-data เพื่อให้ message อยู่กลางหน้า page ดังนี้
+                #no-data {
+                    position: absolute;
+                    top: 50%;    
+                    left: 50%;
+                    margin-right: -50%; 
+                    transform: translate(-50%, -50%);
+                    font-size: 22px;     
+                }
+5.22.17 แก้ไขใน base.html ให้ Page Title เปลี่ยนแปลงตาม page ที่ extend ไป ดังนี้
+                <title>{% block title %} Btech Staff Project {% endblock title %}</title>
+5.23.01 แก้ไข ใน login.html เพื่อรองรับ block title ดังนี้
+                {% extends 'base.html' %}
+                {% block title %} Btech Staff Project {% endblock title %}
+                <!--  Page Content  -->
+                {% block content %}
+5.24.29 แก้ไข ใน backend.html เพื่อรองรับ block title ดังนี้
+                <!-- Title on the Browse tab  -->
+                {% block title %} All Staffs {% endblock title %}
+5.25.48 แก้ไข ใน edit_staff.html เพื่อรองรับ block title ดังนี้

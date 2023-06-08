@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+<!-- Title on the Browse tab  -->
+{% block title %} Add new Staff {% endblock title %}
+
+<!-- === Navbar Content   === -->
+{% block navbar-content %}
+<i class='fas fa-user-plus'  style='font-size:24px'></i>&nbsp; &nbsp;Add Staff
+{% endblock navbar-content %}
+
+<!-- === Time   === -->
+{% block time %}
+<div class="col-sm">
+<center>
+    <span id="clock" style="color:lightblue;"></span>
+</center>
+</div>
+{% endblock time %}
+
+
+<!-- Button on navbar -->
+{% block nav-btn %}
+<a class="btn btn-outline-danger border-Light text-light btn-sm" id="btn-nav" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+{% endblock nav-btn %}
+
+<!-- === Page Content   === -->
+{% block content %}
+<div class="container">
+     <div class="row">
+          <div class="col-lg-12">
+               <div class="card card-body border-dark text-primary mt-5">
+                    <span class="text-center">{% block card-title %} Fill Out The Form Below {% endblock card-title %}</span>
+
+               </div>
+               <form {% block Action %} action="/add_staff" {% endblock Action %}  method="POST" autocomplete="off" enctype="multipart/form-data" class="card p-5 border-dark mt-3">
+               <!--class="card p-5 border-dark mt-3   p-3 หมายถึง 3 พารากราฟ mt-3 หมายถึง margin top 3 px -->
+                    {% csrf_token %}
+                    <div class="input-group input-group-sm mb-3">
+                         <label class="input-group-text side-label">คำนำหน้า</label>
+                         <select class="form-select" name="title" id="title">
+                              {% block option-title %}
+                              <option value="" hidden>กรุณาเลือกคำนำหน้า</option>
+                              {% endblock option-title %}
+                              <option disabled></option>
+                              <option>นาย</option>
+                              <option>นางสาว</option>
+                              <option>นาง</option>                              
+                         </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text side-label">ชื่อ</span>
+                         <input type="text" class="form-control" name="first_name" id="first_name" maxlength="35" placeholder="...ชื่อ" {% block value-first_name %} {% endblock value-first_name %}>
+                    </div>                    
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text side-label">นามสกุล</span>
+                         <input type="text" class="form-control" name="last_name" id="last_name" maxlength="35" placeholder="...นามสกุล" {% block value-last_name %} {% endblock value-last_name %}>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text" >เบอร์โทรศัพท์</span>
+                         <input type="text" class="form-control" name="mobile" id="mobile" maxlength="20" placeholder="...เบอร์โทร" {% block value-mobile %} {% endblock value-mobile %} >
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text" >เลขบัตร ปชช.</span>
+                         <input type="text" class="form-control" name="card_id_no" id="card_id_no" maxlength="20" placeholder="...เลขบัตร ปชช." {% block value-card_id_no %} {% endblock value-card_id_no %}>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text side-label" >วัน-เดือน-ปี เกิด</span>
+                         <input type="date" class="form-control" name="birthdate" id="birthdate" {% block value-birthdate %} {% endblock value-birthdate %}>
+                    </div>                    
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text side-label" >อายุ</span>
+                         <input type="text" class="form-control" name="age" id="age" maxlength="3" placeholder="...อายุ" {% block value-age %} {% endblock value-age %}>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                         <label class="input-group-text side-label" >เพศ</label>
+                         <select class="form-select" name="gender" id="gender">
+                              {% block option-gender %}
+                              <option value="" hidden>กรุณาเลือกเพศ</option>
+                              {% endblock option-gender %}                              
+                              <option disabled></option>
+                              <option>ชาย</option>
+                              <option>หญิง</option>
+                         </select>
+                    </div>                    
+                    <div class="input-group input-group-sm mb-3">
+                         <label class="input-group-text side-label" >กรุ๊ปเลือด</label>
+                         <select class="form-select" name="bloodgrp" id="bloodgrp">
+                              {% block option-bloodgrp %}
+                              <option value="" hidden>กรุณาเลือกกรุ๊ปเลือด</option>
+                              {% endblock option-bloodgrp %}                              
+                              <option disabled></option>
+                              <option>A</option>
+                              <option>B</option>
+                              <option>O</option>
+                              <option>AB</option>                              
+                         </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                         <span class="input-group-text side-label" >E-mail</span>
+                         <input type="text" class="form-control" name="email" id="email" maxlength="30" placeholder="...E-mail" {% block value-email %} {% endblock value-email %} >
+                    </div>
+                    <div class="form-group">
+                         <textarea class="form-control" name="address" id="address" rows="5"  placeholder="...ที่อยู่" >{% block address %} {% endblock address %}</textarea>
+                    </div> 
+                    <div class="d-grid gap-2 mt-2">
+                         <button type="submit" class="btn btn-primary btn-sm" id="btn-add">
+                              {% block Btn-add %}
+                              <i class="fas fa-plus"></i>&nbsp;&nbsp; Add
+                              {% endblock Btn-add %}                              
+                         </button>
+
+                    <!-- Reset button (in edit_staff.html)  denied here-->       
+                    {% block Btn-reset %}{% endblock Btn-reset %} 
+
+                         <a href="{% url 'backend' %}" class="btn btn-dark btn-sm"><i class="fas fa-chevron-left"></i>&nbsp;&nbsp; back</a>
+                    </div> 
+                    <!-- ID Hidden (denied here)-->       
+                    {% block Id-hidden %}{% endblock Id-hidden %}                              
+               </form>
+          </div>
+     </div>
+</div>
+{% endblock content %}

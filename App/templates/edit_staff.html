@@ -1,0 +1,64 @@
+{% extends 'add_staff.html' %}
+
+<!-- Title on the Browse tab  -->
+{% block title %} Edit Staff {% endblock title %}
+
+<!-- Card title (in add_staff.html) extended here-->
+{% block card-title %}
+  Registered at: <span class="text-dark">{{ staff.created_at | date:'m/d/Y (H:i)'}}</span> 
+{% endblock card-title %}
+
+<!-- Add button extend here-->
+{% block Btn-add %}
+<i class="fas fa-hdd"></i>&nbsp;&nbsp; Save
+{% endblock Btn-add %}  
+
+<!-- Reset button -->       
+{% block Btn-reset %}
+<button type="reset" class="btn btn-secondary btn-sm"><i class="fas fa-sync-alt"></i>&nbsp; &nbsp;Reset</button>
+{% endblock Btn-reset %}
+
+<!-- Block Form Action-->
+{% block Action %} action="/save_staff" {% endblock Action %}
+
+<!-- === Navbar Content (icon + title)  === -->
+{% block navbar-content %}
+<i class='fas fa-user-edit'  style='font-size:24px'></i>&nbsp; &nbsp;{{staff.first_name}}&nbsp;{{staff.last_name}}
+{% endblock navbar-content %}
+
+
+
+
+<!--===============================  All <input> Extended  ==============================-->
+<!-- title-->
+{% block option-title %}
+    <option style="background-color: #d3d3d3; color: #007bff;">{{staff.title}}</option>
+{% endblock option-title %}
+<!-- first name-->
+{% block value-first_name %} value = "{{ staff.first_name }}" {% endblock value-first_name %}
+<!-- last name-->
+{% block value-last_name %} value = "{{ staff.last_name }}" {% endblock value-last_name %}
+<!-- mobile-->
+{% block value-mobile %} value = "{{ staff.mobile }}" {% endblock value-mobile %}
+<!-- card_id_no-->
+{% block value-card_id_no %} value = "{{ staff.card_id_no }}" {% endblock value-card_id_no %}
+<!-- birthdate-->
+{% block value-birthdate %} value ="{{ staff.birthdate | date:'d/m/Y'}}" {% endblock value-birthdate %}
+<!-- age-->
+{% block value-age %}  value = "{{ staff.age }}"{% endblock value-age %}
+<!-- email-->
+{% block value-email %} value = "{{ staff.email }}"  {% endblock value-email %}
+<!-- gender-->
+{% block option-gender %}
+    <option style="background-color: #d3d3d3; color: #007bff;">{{staff.gender}}</option>
+{% endblock option-gender %}
+<!-- bloodgrp-->
+{% block option-bloodgrp %}
+    <option style="background-color: #d3d3d3; color: #007bff;">{{staff.bloodgrp}}</option>
+{% endblock option-bloodgrp %}
+<!-- address-->
+{% block address %}{{staff.address}}{% endblock address %}
+<!-- ID Hidden-->
+{% block Id-hidden %}
+<input type="hidden" value="{{ staff.id }}" name="id">
+{% endblock Id-hidden %}
