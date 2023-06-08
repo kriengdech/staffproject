@@ -1,2 +1,2 @@
 # staffproject
-source code for staff project
+source code for staff project development
