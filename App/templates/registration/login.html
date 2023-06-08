@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+<!-- Title on the Browse tab  -->
+{% block title %} Login {% endblock title %}
+<!-- === Navbar Content   === -->
+{% block navbar-content %}
+<i class="fas fa-stethoscope"></i>&nbsp; &nbsp;Login
+{% endblock navbar-content %}
+
+<!-- === Time   === -->
+{% block time %}
+<div class="col-sm">
+<center>
+    <span id="clock" style="color:lightblue;"></span>
+</center>
+</div>
+{% endblock time %}
+
+
+
+
+<!-- Button on navbar -->
+{% block nav-btn %}
+<a href="{% url 'frontend' %}" class="btn btn-outline-primary border-Light text-light btn-sm" id="btn-nav" >Go Back</a>
+{% endblock nav-btn %}
+
+<!-- === Page Content   === -->
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-3 boder-dark">
+        <a class="btn btn-outline-dark mt-3"><i class="fas fa-lock"></i>&nbsp;&nbsp; RESTRICTED ACCESS</a>
+        <form method="POST" autocomplete="off" novalidate>
+            {% csrf_token %}
+            <div class="input-group mb-3 mt-5">
+                <span class="btn input-group-text border-secondary bg-light icon-width"><i class="fas fa-user-alt"></i></span>
+                <input type="text" class="form-control" name="username" placeholder="Username">
+            </div>
+            <div class="input-group mb-3 mt-5">
+                <span class="btn input-group-text border-secondary bg-light icon-width"><i class="fas fa-lock"></i></span>
+                <input type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+            <input class="btn btn-primary btn-sm mt-4 mb-3" type="submit" value="Enter" id="btn-enter">
+
+        </form>
+    </div>
+    <!-- message from backend -->   
+    {% if form.errors %}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        swal("Denied !","Enter your data correctly. \n\n Please contact the support ! quickly","error")
+    </script>
+    {% endif %}    
+    
+    <!-- Heart Pulse -->
+    <center id="Heart">
+        <i class="text-primary fas fa-heartbeat fa-10x blink_me" ></i>
+    </center>
+
+
+</div>   <!-- end container -->
+{% endblock %}

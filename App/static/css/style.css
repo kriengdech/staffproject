@@ -1,0 +1,108 @@
+/*=======================================
+# Start Configuration
+=======================================*/
+html,
+body {
+    height: 100%;
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;   /* slide ด้านข้าง */
+}
+/*=======================================
+# navbar
+=======================================*/
+#btn-nav {
+    width: 90px;
+    float: right;     /* ให้ปุ่มลอยอยู่ขวาสุด */
+    margin-right: 25px;
+}
+/*=======================================
+# footer
+=======================================*/
+.wrapper {                     /* . ใช้กับ class   :  # ใช้กับ id  */
+    min-height: 100%;
+    margin-bottom: -50px;      /* เป็นการทำให้ footer ถูกดันไปใต้สุด - ด้วย 50px.   */
+}
+#footer,
+.push {
+    height: 50px;
+    font-size: 15px;
+} 
+/*=======================================
+# LOGIN
+=======================================*/
+#btn-enter {
+    width: 120px;
+}
+#heart {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    margin-right: -50%; 
+    transform: translate(-50%, -50%);
+    font-size: 20px;     
+}
+/*=======================================
+# ฺBACKEND
+=======================================*/
+
+.side-label {
+    width: 75px;
+}
+
+#no-data {
+    position: absolute;
+    top: 50%;    
+    left: 50%;
+    margin-right: -50%; 
+    transform: translate(-50%, -50%);
+    font-size: 22px;     
+}
+
+.icon-width {
+    width: 60px;
+}
+
+/*=======================================
+# ฺCUSTOM SWEETALERT(blue Theme
+=======================================*/
+/* All texts 100% centered */
+.swal-text {
+    text-align: center;
+}
+/* Icon settings */
+.swal-icon--success:before,
+.swal-icon--success:after,
+.swal-icon--success_hide-corners {
+    background: none !important;
+}
+.swal-icon--success {
+    /* Ring color */
+    border-color: #007bff;
+}
+.swal-icon--success__line {
+    /* Color animation */
+    background-color: #007bff;
+}
+.swal-button {
+    padding: 7px 19px;
+    border-radius: 5px;
+    background-color: #007bff;
+    font-size: 12px;
+    border: 1px solid  #007bff;
+}
+.swal-button:focus {
+    /* Remove the silver border of button */
+    box-shadow: none;
+}
+.swal-button:not([disabled]):hover {
+    background: transparent;
+    color: #111;
+    border: 1px solid  #007bff;
+}
+
+
+/*
+
+
+
